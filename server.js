@@ -26,6 +26,9 @@ io.on("connection",socket=>{
         // console.log("Connected to Room "+roomID);
         socket.join(roomID);
         socket.to(roomID).emit('user-connected',userId);
+        socket.on("message",message=>{
+            io.to(roomID).emit("createMessage",message);
+        })
     })
 })
 
