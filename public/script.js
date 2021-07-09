@@ -25,7 +25,7 @@ navigator.mediaDevices.getUserMedia({
             console.log('Failed to get local stream' ,err);}
     })
     socket.on('user-connected',(userId)=>{
-        setTimeout(broadCastUser,1000,userId,stream)
+        setTimeout(broadCastUser,5000,userId,stream)
         // broadCastUser(userId,stream);
     })
 })
