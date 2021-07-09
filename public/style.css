@@ -7,8 +7,10 @@ body{
     justify-content: center;
 }
 video{
-    width: 300px;
-    height: 400px;
+    width: 48%;
+    height: 450px;
+    margin: 5px;
+    border: 2px solid red;
     object-fit: cover;
 }
 .main{
@@ -44,6 +46,7 @@ video{
 }
 
 .main__controls__button{
+    cursor: pointer;
     display: flex;
     flex-direction: column;
     justify-content: center;

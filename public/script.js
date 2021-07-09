@@ -11,8 +11,8 @@ var peer = new Peer(undefined,{
     path: '/peerjs',
     host: '/',
     // port: '3030'
-    //Use this for Development
     port: '443'
+    //Use this for Development
     
 }); 
 
