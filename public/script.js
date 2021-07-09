@@ -1,24 +1,29 @@
 const socket=io('/');
+// All The videos will be displayed at here
 const videoGrid=document.getElementById("video-grid");
+// My Video will displayed at here
 const myVideo=document.createElement("video");
+// My mic will be muted
 myVideo.muted=true;
-// var PORT=3030
-// if(process.env.PORT)
-//     PORT=443;
 let myVideoStream;
+const peers={};
 var peer = new Peer(undefined,{
-    path:'/peerjs',
-    host:'/',
-    port:"443"
+    path: '/peerjs',
+    host: '/',
+    // port: '3030'
+    //Use this for Development
+    port: '443'
+    
 }); 
 
+// Getting Access of User video and Audio
 navigator.mediaDevices.getUserMedia({
     video:true,
     audio:true
 }).then(stream=>{
     myVideoStream=stream;
     addVideoStream(myVideo,stream); 
-
+//Answer the Call
     peer.on('call',(call)=>{
         console.log("Duo Video Chat");
         call.answer(stream);
@@ -27,24 +32,35 @@ navigator.mediaDevices.getUserMedia({
             addVideoStream(video,userVideoStream);
         })
     })
+    //When a new User connect... Broadcast this User to EveryOne
     socket.on('user-connected',(userId)=>{
         setTimeout(broadCastUser,1000,userId,stream)
-        // broadCastUser(userId,stream);
     })
 })
 
+//When disconnect remove from the Call
+socket.on('user-disconnected', userId => {
+    if (peers[userId]) peers[userId].close()
+  })
+
+//Joining a room
 peer.on('open',id=>{
     socket.emit('join-room',ROOM_ID,id);
 })
 
+//BroadCast User to EveryOne
 const broadCastUser=(userId,stream)=>{
     const call=peer.call(userId,stream)
     const video=document.createElement('video')
     call.on('stream',userVideoStream=>{
         addVideoStream(video,userVideoStream);
     })
+    call.on('close', () => {
+        video.remove()
+      })
+      peers[userId] = call
 }
-
+//Creating a Video Stream
 const addVideoStream=(video,stream)=>{
     video.srcObject=stream;
     video.addEventListener('loadedmetadata',()=>{
@@ -53,6 +69,11 @@ const addVideoStream=(video,stream)=>{
     videoGrid.append(video);
 }
 
+// ------For Chat Section-----
+socket.on("createMessage",message=>{
+    $("ul").append(`<li class="message"><b>User: </b> ${message} <br/></li>`);
+    scrollToBottom();
+})
 let text=$('input')
 $('html').keydown((e)=>{
     if(e.which==13 && text.val().length!==0){ 
@@ -61,16 +82,13 @@ $('html').keydown((e)=>{
         text.val('');
     }
 })
-
 const scrollToBottom=()=>{
     let d=$('.main__chat_window');
     d.scrollTop(d.prop("scrollHeight"));
 }
-socket.on("createMessage",message=>{
-    $("ul").append(`<li class="message"><b>User: </b> ${message} <br/></li>`);
-    scrollToBottom();
-})
+//--------------------------//
 
+// ---------Audio Mute Unmute Section---------
 const muteUnmute=()=>{
     const enabled=myVideoStream.getAudioTracks()[0].enabled;
     if(enabled){
@@ -97,7 +115,9 @@ const setMuteButton = () => {
     `
     document.querySelector('.main__mute_button').innerHTML = html;
   }
+//--------------------------//
 
+// ---------Video Mute Unmute Section---------
   const playStop = () => {
     console.log('object')
     let enabled = myVideoStream.getVideoTracks()[0].enabled;
@@ -125,3 +145,4 @@ const setMuteButton = () => {
     `
     document.querySelector('.main__video_button').innerHTML = html;
   }
+  //--------------------------//
