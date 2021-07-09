@@ -8,8 +8,6 @@ const peerServer=ExpressPeerServer(server,{
     debug:true
 });
 
-const PORT=process.env.PORT || 3030;
-
 app.set('view engine','ejs');
 app.use(express.static('public'));
 app.use('/peerjs',peerServer);
@@ -19,7 +17,7 @@ app.get("/",(req,res)=>{
 });
 
 app.get("/:room",(req,res)=>{
-    res.render("room",{roomID:req.params.room,PORT:PORT});
+    res.render("room",{roomID:req.params.room});
 })
 
 io.on("connection",socket=>{
@@ -35,4 +33,5 @@ io.on("connection",socket=>{
     })
 })
 
+const PORT=process.env.PORT || 3030;
 server.listen(PORT);

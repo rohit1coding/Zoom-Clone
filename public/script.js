@@ -7,12 +7,11 @@ const myVideo=document.createElement("video");
 myVideo.muted=true;
 let myVideoStream;
 const peers={};
-console.log(PORT)
 var peer = new Peer(undefined,{
     path: '/peerjs',
     host: '/',
-    port: `${PORT}`
-    // port: '443'
+    // port: '3030'
+    port: '443'
     //Use this for Development
     
 }); 
@@ -26,6 +25,7 @@ navigator.mediaDevices.getUserMedia({
     addVideoStream(myVideo,stream); 
 //Answer the Call
     peer.on('call',(call)=>{
+        console.log("Duo Video Chat");
         call.answer(stream);
         const video=document.createElement("video")
         call.on('stream',userVideoStream=>{
