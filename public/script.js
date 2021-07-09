@@ -2,11 +2,13 @@ const socket=io('/');
 const videoGrid=document.getElementById("video-grid");
 const myVideo=document.createElement("video");
 myVideo.muted=true;
-
+// var PORT=3030
+// if(process.env.PORT)
+//     PORT=443;
 var peer = new Peer(undefined,{
     path:'/peerjs',
     host:'/',
-    port:'443'
+    port:"443"
 }); 
 
 navigator.mediaDevices.getUserMedia({
@@ -25,7 +27,7 @@ navigator.mediaDevices.getUserMedia({
             console.log('Failed to get local stream' ,err);}
     })
     socket.on('user-connected',(userId)=>{
-        setTimeout(broadCastUser,2000,userId,stream)
+        setTimeout(broadCastUser,1000,userId,stream)
         // broadCastUser(userId,stream);
     })
 })
