@@ -8,7 +8,7 @@ Before deploying the function, ensure that you have the following prerequisites 
 
 - Node.js and npm: [Node.js Installation](https://nodejs.org/)
 - Serverless Framework: [Serverless Installation](https://www.serverless.com/framework/docs/getting-started/)
-- AWS CLI: [AWS CLI Installation](https://aws.amazon.com/cli/)
+- AWS CLI: [AWS CLI Installation](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 
 ## Usage
 
