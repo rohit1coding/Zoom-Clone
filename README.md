@@ -38,7 +38,7 @@ functions:
 After successful deployment, you can invoke the deployed function by using the following command:
 
 ```bash
-serverless invoke --function emailTracking
+serverless invoke --function emailTracking --stage <stage-name>
 ```
 
 ### Local development
@@ -46,5 +46,5 @@ serverless invoke --function emailTracking
 You can invoke your function locally by using the following command:
 
 ```bash
-serverless invoke local --function emailTracking
+serverless invoke local --function emailTracking --stage <stage-name>
 ```
