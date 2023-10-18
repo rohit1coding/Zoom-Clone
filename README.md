@@ -17,9 +17,10 @@ Before deploying the function, ensure that you have the following prerequisites 
 In order to deploy the example, you need to run the following command:
 
 ```
-$ serverless deploy --stage <stage-name> (stage-name can be dev, staging or production)
+$ serverless deploy --stage <stage-name>
 
 ```
+stage-name can be dev, staging or production
 
 After running deploy, you should see output similar to:
 
